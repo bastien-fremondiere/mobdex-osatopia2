@@ -41,6 +41,7 @@ function AlteredIcon({ name, entityId, order, rarity, hideSelected }: AlteredEnt
                 height={150}
             />
             <div className="text-sm absolute right-0 bottom-0 z-20 bg-zinc-700 opacity-80 p-1 rounded-lg">{name}</div>
+            <div className="text-sm absolute right-0 top-0 z-20 bg-zinc-700 opacity-80 p-1 rounded-lg">{order}</div>
         </div >
     )
 }
