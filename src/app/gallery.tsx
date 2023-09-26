@@ -22,7 +22,7 @@ function AlteredIcon({ name, entityId, order, rarity, hideSelected }: AlteredEnt
             width: 150,
             height: 150
         }}
-
+            key={order}
             className={"relative block hover:cursor-pointer rounded-lg bg-zinc-900 hover:bg-zinc-800 box-border duration-100 " + (selected ? "border-solid border-2 border-sky-500 " : "") + ((selected && hideSelected) ? " hidden" : "")
             } >
             <div className=' w-8 h-8 text-center text-lg bg-zinc-700 rounded-lg absolute z-20' onClick={() => setChroma(!chroma)}>{chroma ? "★" : "☆"}</div>
@@ -58,7 +58,7 @@ export default function Gallery({ hideSelected }: any) {
             })
                 .map(altered => {
                     return (
-                        <AlteredIcon {...altered} hideSelected={hideSelected} />
+                        <AlteredIcon key={altered.order} {...altered} hideSelected={hideSelected} />
                     )
                 })}
         </div>
