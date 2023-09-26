@@ -29,14 +29,14 @@ function AlteredIcon({ name, entityId, order, rarity, hideSelected }: AlteredEnt
             <Image alt={name}
                 className='absolute z-0 left-0 top-0'
                 onClick={() => setSelected(!selected)}
-                src={"/altered/" + entityId + "." + "Chroma" + ".png"}
+                src={"/mobdex-osatopia2/altered/" + entityId + "." + "Chroma" + ".png"}
 
                 width={150}
                 height={150} />
             <Image alt={name}
                 className={'left-0 top-0 absolute z-10 duration-300 ' + (chroma ? "opacity-0" : "opacity-100")}
                 onClick={() => setSelected(!selected)}
-                src={"/altered/" + entityId + "." + "Normal" + ".png"}
+                src={"/mobdex-osatopia2/altered/" + entityId + "." + "Normal" + ".png"}
                 width={150}
                 height={150}
             />
