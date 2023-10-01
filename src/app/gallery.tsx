@@ -10,15 +10,16 @@ type AlteredEntity =
         entityId: number,
         order: number,
         rarity: number,
-        hideSelected: boolean
+        hideSelected: boolean,
+        chromaImg: any,
+        normalImg: any
     };
 
-function AlteredIcon({ name, entityId, order, rarity, hideSelected }: AlteredEntity) {
+function AlteredIcon({ name, entityId, order, chromaImg, normalImg, rarity, hideSelected }: AlteredEntity) {
     const selectKey = "selected-" + entityId;
     const chromaKey = "chroma-" + entityId;
     const [selected, setSelected] = useLocalStorage(selectKey, false);
     const [chroma, setChroma] = useLocalStorage(chromaKey, false);
-
     /**
      * Initialize if necessary
      */
@@ -42,21 +43,13 @@ function AlteredIcon({ name, entityId, order, rarity, hideSelected }: AlteredEnt
             <Image alt={name}
                 className='absolute z-0 left-0 top-0'
                 onClick={() => setSelected(!selected)}
-
-                //mobdex-osatopia2/
-                src={"/altered/" + entityId + "." + "Chroma" + ".png"}
-
-                width={150}
-                height={150} />
+                src={chromaImg}
+                placeholder="blur" />
             <Image alt={name}
                 className={'left-0 top-0 absolute z-10 duration-300 ' + (chroma ? "opacity-0" : "opacity-100")}
                 onClick={() => setSelected(!selected)}
-
-                ///mobdex-osatopia2/
-                src={"/altered/" + entityId + "." + "Normal" + ".png"}
-                width={150}
-                height={150}
-            />
+                src={normalImg}
+                placeholder="blur" />
             <div className="text-sm absolute right-0 bottom-0 z-20 bg-zinc-700 opacity-80 p-1 rounded-lg">{name}</div>
             <div className="text-sm absolute right-0 top-0 z-20 bg-zinc-700 opacity-80 p-1 rounded-lg">{order}</div>
         </div >
