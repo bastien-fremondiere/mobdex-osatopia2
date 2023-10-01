@@ -1,8 +1,8 @@
 "use client";
 import Image from 'next/image'
 import ALTERED from '../altered'
-import { useState, useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts'
+import { useEffect } from 'react';
 
 type AlteredEntity =
     {
@@ -14,9 +14,22 @@ type AlteredEntity =
     };
 
 function AlteredIcon({ name, entityId, order, rarity, hideSelected }: AlteredEntity) {
-    const [selected, setSelected] = useLocalStorage("selected-" + entityId, false);
-    const [chroma, setChroma] = useLocalStorage("chroma-" + entityId, false);
+    const selectKey = "selected-" + entityId;
+    const chromaKey = "chroma-" + entityId;
+    const [selected, setSelected] = useLocalStorage(selectKey, false);
+    const [chroma, setChroma] = useLocalStorage(chromaKey, false);
 
+    /**
+     * Initialize if necessary
+     */
+    useEffect(() => {
+        if (!localStorage.getItem(selectKey)) {
+            setSelected(false);
+        }
+        if (!localStorage.getItem(chromaKey)) {
+            setChroma(false);
+        }
+    }, [])
     return (
         <div style={{
             width: 150,
@@ -29,14 +42,18 @@ function AlteredIcon({ name, entityId, order, rarity, hideSelected }: AlteredEnt
             <Image alt={name}
                 className='absolute z-0 left-0 top-0'
                 onClick={() => setSelected(!selected)}
-                src={"/mobdex-osatopia2/altered/" + entityId + "." + "Chroma" + ".png"}
+
+                //mobdex-osatopia2/
+                src={"/altered/" + entityId + "." + "Chroma" + ".png"}
 
                 width={150}
                 height={150} />
             <Image alt={name}
                 className={'left-0 top-0 absolute z-10 duration-300 ' + (chroma ? "opacity-0" : "opacity-100")}
                 onClick={() => setSelected(!selected)}
-                src={"/mobdex-osatopia2/altered/" + entityId + "." + "Normal" + ".png"}
+
+                ///mobdex-osatopia2/
+                src={"/altered/" + entityId + "." + "Normal" + ".png"}
                 width={150}
                 height={150}
             />
