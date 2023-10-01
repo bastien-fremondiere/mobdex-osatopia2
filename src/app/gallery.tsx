@@ -2,7 +2,8 @@
 import Image from 'next/image'
 import ALTERED from '../altered'
 import { useLocalStorage } from 'usehooks-ts'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import alteredIndex from './altered-index';
 
 type AlteredEntity =
     {
@@ -56,15 +57,35 @@ function AlteredIcon({ name, entityId, order, chromaImg, normalImg, rarity, hide
     )
 }
 
-export default function Gallery({ hideSelected }: any) {
+function filterHide(altered: any, hideSelected: boolean) {
+    if (hideSelected) {
+        return localStorage.getItem("selected-" + altered.entityId) === "false"
+    } else {
+        return true;
+    }
+}
+
+function filterIds(altered: any, idsToKeep: number[]) {
+    if (idsToKeep.length == 0) {
+        return true;
+    }
+    return idsToKeep.find((self) => altered.entityId == self) !== undefined;
+}
+
+export default function Gallery({ hideSelected, searchText }: any) {
+    const [idsToKeep, setIdsToKeep] = useState<number[]>([]);
+    useEffect(() => {
+        if (searchText.length >= 3) {
+            const result = alteredIndex.search("*" + searchText + "*");
+            setIdsToKeep(result.map(entry => parseInt(entry.ref)));
+        } else {
+            setIdsToKeep([]);
+        }
+    }, [searchText]);
     return (
-        <div className="flex w-10/12 flex-wrap align-middle gap-y-6 gap-x-6">
+        <div className="flex flex-1 w-10/12 flex-wrap align-middle gap-y-6 gap-x-6">
             {ALTERED.filter((altered) => {
-                if (hideSelected) {
-                    return localStorage.getItem("selected-" + altered.entityId) === "false"
-                } else {
-                    return true;
-                }
+                return filterHide(altered, hideSelected) && filterIds(altered, idsToKeep);
             })
                 .map(altered => {
                     return (
